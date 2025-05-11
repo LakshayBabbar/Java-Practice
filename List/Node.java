@@ -1,8 +1,8 @@
 package List;
 
-public class Node<T> {
+class Node<T> {
     T data;
-    public Node<T> next;
+    Node<T> next;
 
     Node(T data) {
         this.data = data;

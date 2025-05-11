@@ -11,10 +11,11 @@ public class Stack<T> {
         top++;
     }
 
-    public void pop() {
+    public T pop() {
         if (isEmpty())
-            return;
-        array.remove(top--);
+            return null;
+
+        return array.remove(top--);
     }
 
     public T peek() {

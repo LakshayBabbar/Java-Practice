@@ -1,74 +1,99 @@
 package List;
 
-import java.util.Stack;
+import ArrayList.Stack;
 
 public class LinkedList<T> {
-    public Node<T> head = null, tail = null;
-    public int size = 0;
+    private Node<T> head = null, tail = null;
+    private int size = 0;
 
-    boolean isListEmpty() {
+    public boolean isEmpty() {
         return head == null;
     }
 
-    public void add(T data) {
+    public Node<T> add(T data) {
         Node<T> newNode = new Node<>(data);
-        if (isListEmpty()) {
+        if (isEmpty()) {
             head = tail = newNode;
         } else {
             tail.next = newNode;
             tail = newNode;
         }
         size++;
+        return newNode;
     }
 
-    public void addAtHead(T data) {
+    public Node<T> addHead(T data) {
         Node<T> newNode = new Node<>(data);
-        if (isListEmpty()) {
+        if (isEmpty()) {
             head = tail = newNode;
         } else {
             newNode.next = head;
             head = newNode;
         }
         size++;
+        return newNode;
     }
 
-    public void delete() {
-        if (isListEmpty())
-            return;
+    public Node<T> addAt(T data, int index) {
+        Node<T> newNode = new Node<>(data), temp = head;
+        if (index == 0) {
+            return addHead(data);
+        } else if (index == size) {
+            return add(data);
+        } else if (index < 0 || index >= size) {
+            System.out.println("Invalid Index.");
+            return null;
+        }
+        for (int i = 0; i < index - 1; i++) {
+            temp = temp.next;
+        }
+        newNode.next = temp.next;
+        temp.next = newNode;
 
+        size++;
+        return newNode;
+    }
+
+    public Node<T> remove() {
+        if (isEmpty())
+            return null;
+        Node<T> deletedNode = null;
         if (head == tail) {
+            deletedNode = head;
             head = tail = null;
         } else {
             Node<T> temp = head;
             while (temp.next != tail) {
                 temp = temp.next;
             }
+            deletedNode = temp.next;
             temp.next = null;
             tail = temp;
         }
         size--;
+        return deletedNode;
     }
 
-    public void deleteAtHead() {
-        if (isListEmpty())
-            return;
-
+    public Node<T> removeHead() {
+        if (isEmpty())
+            return null;
+        Node<T> temp = head;
         head = head.next;
         size--;
 
         if (head == null)
             tail = null;
+        return temp;
     }
 
-    public void delete(T element) {
-        if (isListEmpty()) {
+    public Node<T> remove(T element) {
+        if (isEmpty()) {
             System.out.println("List is empty!");
-            return;
-        }
-
-        if (head.data.equals(element)) {
-            deleteAtHead();
-            return;
+            return null;
+        } else if (head.data.equals(element)) {
+            return removeHead();
+        } else if (tail.data.equals(element)) {
+            return remove();
         }
 
         Node<T> temp = head;
@@ -78,13 +103,57 @@ public class LinkedList<T> {
 
         if (temp.next == null) {
             System.out.println("Element not found!");
-            return;
+            return null;
         }
-
+        Node<T> deletedNode = temp.next;
         temp.next = temp.next.next;
-        if (temp.next == null)
-            tail = temp;
         size--;
+        return deletedNode;
+    }
+
+    public Node<T> removeAt(int index) {
+        if (isEmpty()) {
+            return null;
+        } else if (index == 0) {
+            return removeHead();
+        } else if (index == size - 1) {
+            return remove();
+        }
+        Node<T> temp = head;
+        for (int i = 0; i < index - 1; i++) {
+            temp = temp.next;
+        }
+        Node<T> deletedNode = temp.next;
+        temp.next = temp.next.next;
+        size--;
+        return deletedNode;
+    }
+
+    public T elementAt(int idx) {
+        if (idx >= size || idx < 0) {
+            System.out.println("Invalid index");
+            return null;
+        }
+        if (isEmpty())
+            return null;
+
+        Node<T> temp = head;
+        for (int i = 0; i < idx; i++) {
+            temp = temp.next;
+        }
+        return temp.data;
+    }
+
+    public boolean contains(T data) {
+        if (isEmpty())
+            return false;
+        Node<T> temp = head;
+        while (temp != null && temp.next != null) {
+            temp = temp.next;
+            if (temp.data == data)
+                return true;
+        }
+        return false;
     }
 
     public void reverse() {
@@ -125,8 +194,12 @@ public class LinkedList<T> {
         return slow;
     }
 
+    public int getSize() {
+        return size;
+    }
+
     public void display() {
-        if (isListEmpty()) {
+        if (isEmpty()) {
             System.out.println("List is empty!");
             return;
         }
@@ -140,6 +213,13 @@ public class LinkedList<T> {
         System.out.println();
     }
 
+    // To make a cyclic list only for testing
+    public void createCycle() {
+        if (tail != null && head != null)
+            tail.next = midPoint();
+    }
+
+    // Floyd’s Tortoise and Hare algorithm
     public Boolean checkCycle() {
         Node<T> slow = head, fast = head;
         while (fast != null && fast.next != null) {
