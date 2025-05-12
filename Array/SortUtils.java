@@ -2,7 +2,7 @@ package Array;
 
 import java.util.Random;
 
-public class Sort {
+public class SortUtils {
 
     public int[] getRandomArrayOfIntegers(int size) {
         Random rand = new Random();

@@ -1,6 +1,7 @@
 package ArrayList;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 
 public class Stack<T> {
     private int top = -1;
@@ -26,15 +27,33 @@ public class Stack<T> {
         return array.getLast();
     }
 
+    public boolean contains(T data) {
+        if (isEmpty())
+            return false;
+        return array.contains(data);
+    }
+
+    public T elementAt(int index) {
+        if (isEmpty())
+            throw new EmptyStackException();
+        if (index < 0 || index >= size())
+            throw new IndexOutOfBoundsException();
+        return array.get(index);
+    }
+
     public void display() {
         if (isEmpty()) {
             System.out.println("Stack is empty!");
             return;
         }
+        StringBuilder str = new StringBuilder("[");
         for (int i = 0; i <= top; i++) {
-            System.out.print(array.get(i) + "\t");
+            str.append(array.get(i));
+            if (i < size() - 1)
+                str.append(", ");
         }
-        System.out.println();
+        str.append("]");
+        System.out.println(str);
     }
 
     public boolean isEmpty() {

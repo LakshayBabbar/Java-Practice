@@ -1,4 +1,4 @@
-import Array.Stack;
+import ArrayList.Stack;
 import Exceptions.ElementNotFoundException;
 import java.util.EmptyStackException;
 import java.util.Scanner;
@@ -6,9 +6,7 @@ import java.util.Scanner;
 public class stackPlayground {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter the size of stack: ");
-        int size = input.nextInt();
-        Stack stack = new Stack(size);
+        Stack<Integer> stack = new Stack<>();
         boolean loop = true;
 
         System.out.println("\n--------------STACK-PLAYGROUND--------------");
@@ -50,8 +48,8 @@ public class stackPlayground {
                         break;
                 }
                 System.out.println("\n----------STACK----------");
-                System.out.println(stack.toString());
-                System.out.println("Size: " + stack.getSize());
+                stack.display();
+                System.out.println("Size: " + stack.size());
                 System.out.println("-------------------------");
             } catch (StackOverflowError e) {
                 System.out.println("Error: " + e.getMessage());
