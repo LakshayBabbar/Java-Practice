@@ -1,7 +1,7 @@
 import List.LinkedList;
 import java.util.Scanner;
 
-public class listPractice {
+public class linkedListPlayground {
     public static void main(String args[]) {
         LinkedList<Integer> list = new LinkedList<Integer>();
         Scanner input = new Scanner(System.in);
